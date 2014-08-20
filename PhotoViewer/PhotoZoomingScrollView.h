@@ -7,13 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
-@class EGOImageView;
+
+@protocol PhotoZoomingScrollViewDelegate <NSObject>
+- (void)singleTap;
+@end
+
 @interface PhotoZoomingScrollView : UIScrollView
+
+@property (nonatomic, weak) id <PhotoZoomingScrollViewDelegate> tapDelegate;
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) NSURL *imageUrl;
-@property (nonatomic, strong) EGOImageView *imageView;
+
 - (void)display;
 - (void)prepareForReuse;
 @end

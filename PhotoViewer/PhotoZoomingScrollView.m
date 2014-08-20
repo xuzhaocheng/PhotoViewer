@@ -11,7 +11,7 @@
 
 @interface PhotoZoomingScrollView () <UIScrollViewDelegate>
 
-
+@property (nonatomic, strong) EGOImageView *imageView;
 
 @end
 
@@ -33,6 +33,18 @@
         self.imageView = [[EGOImageView alloc] init];
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
         self.imageView.clipsToBounds = YES;
+        self.imageView.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
+        doubleTapGesture.numberOfTapsRequired = 2;
+        [self.imageView addGestureRecognizer:doubleTapGesture];
+        
+        UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+        singleTapGesture.numberOfTapsRequired = 1;
+        [self.imageView addGestureRecognizer:singleTapGesture];
+        
+        [singleTapGesture requireGestureRecognizerToFail:doubleTapGesture];
+        
         [self addSubview:self.imageView];
     }
     return self;
@@ -72,6 +84,7 @@
     self.zoomScale = 1.0;
 }
 
+#pragma mark - Set up
 
 - (void)display
 {
@@ -132,5 +145,33 @@
     return self.imageView;
 }
 
+#pragma mark - Tap Action
+
+- (void)handleDoubleTap: (UIGestureRecognizer *)tapGesture
+{
+    if (self.zoomScale != self.minimumZoomScale) {
+		// Zoom out
+		[self setZoomScale:self.minimumZoomScale animated:YES];
+	} else {
+		// Zoom in to twice the size
+        CGPoint touchPoint = [tapGesture locationInView:self.imageView];
+        CGFloat newZoomScale = ((self.maximumZoomScale + self.minimumZoomScale) / 2);
+        CGFloat xsize = self.bounds.size.width / newZoomScale;
+        CGFloat ysize = self.bounds.size.height / newZoomScale;
+        [self zoomToRect:CGRectMake(touchPoint.x - xsize / 2, touchPoint.y - ysize / 2, xsize, ysize) animated:YES];
+        
+	}
+}
+
+- (void)handleSingleTap: (UIGestureRecognizer *)tapGesture
+{
+    if (self.zoomScale != self.minimumZoomScale) {
+        [self setZoomScale:self.minimumZoomScale animated:YES];
+    } else {
+        if ([_tapDelegate respondsToSelector:@selector(singleTap)]) {
+            [_tapDelegate singleTap];
+        }
+    }
+}
 
 @end

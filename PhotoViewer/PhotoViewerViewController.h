@@ -13,6 +13,7 @@
 @protocol PhotoViewerDelegate <NSObject>
 
 - (NSUInteger)numberOfPhotos;
+- (void)dismissViewController;
 
 @optional
 - (UIImage *)photoViewer: (PhotoViewerViewController *)photoViewer thumbnailAtIndex: (NSUInteger)index;

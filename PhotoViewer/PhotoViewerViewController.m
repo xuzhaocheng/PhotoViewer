@@ -9,12 +9,9 @@
 #import "PhotoViewerViewController.h"
 #import "PhotoZoomingScrollView.h"
 
-
-#import "EGOImageView.h"
-
 #define PADDING     10.0
 
-@interface PhotoViewerViewController () <UIScrollViewDelegate>
+@interface PhotoViewerViewController () <UIScrollViewDelegate, PhotoZoomingScrollViewDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableSet *recyclePages;
@@ -101,6 +98,7 @@
     PhotoZoomingScrollView *page = [self.recyclePages anyObject];
     if (!page) {
         page = [[PhotoZoomingScrollView alloc] init];
+        page.tapDelegate = self;
     } else {
         [self.recyclePages removeObject:page];
     }
@@ -111,7 +109,8 @@
 #pragma mark - UIScrollView delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    NSInteger currentPage = scrollView.contentOffset.x / scrollView.bounds.size.width;
+    NSInteger currentPage = roundf(scrollView.contentOffset.x / scrollView.bounds.size.width);
+    
     if (_currentPageIndex == currentPage) {
         return;
     }
@@ -127,9 +126,18 @@
         }
     }
     [self displayPhotoAtIndex:currentPage];
+    NSLog(@"current page: %ld", (long)currentPage);
 }
 
-
+#pragma mark - PhotoZoomingScrollView delegate
+- (void)singleTap
+{
+    if ([_delegate respondsToSelector:@selector(dismissViewController)]) {
+        [_delegate dismissViewController];
+    } else {
+        [self dismissViewControllerAnimated:NO completion:nil];
+    }
+}
 
 #pragma mark - Frame
 
