@@ -7,8 +7,9 @@
 //
 
 #import "ViewController.h"
+#import "PhotoViewerViewController.h"
 
-@interface ViewController ()
+@interface ViewController () <PhotoViewerDelegate>
 
 @end
 
@@ -27,23 +28,29 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    [button setTitle:@"click me" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.view addSubview:button];
+    [button addTarget:self action:@selector(click) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)didReceiveMemoryWarning
+- (void)click
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    PhotoViewerViewController *vc = [[PhotoViewerViewController alloc] initWithDelegate:self];
+    [self presentViewController:vc animated:NO completion:nil];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (NSUInteger)numberOfPhotos
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    return 3;
 }
-*/
+
+- (UIImage *)photoViewer:(PhotoViewerViewController *)photoViewer photoAtIndex:(NSUInteger)index
+{
+    return [UIImage imageNamed:[NSString stringWithFormat:@"%lu.jpg", (unsigned long)index]];
+}
+
+
 
 @end
