@@ -12,10 +12,10 @@
 		6B61497519A4A8F000E4AA71 /* 0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6B61497219A4A8F000E4AA71 /* 0.jpg */; };
 		6B61497619A4A8F000E4AA71 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6B61497319A4A8F000E4AA71 /* 1.jpg */; };
 		6B61497719A4A8F000E4AA71 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6B61497419A4A8F000E4AA71 /* 2.jpg */; };
-		6B61497E19A4D14100E4AA71 /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61497D19A4D14100E4AA71 /* EGOCache.m */; };
-		6B61498319A4D14700E4AA71 /* EGOImageLoadConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61498019A4D14700E4AA71 /* EGOImageLoadConnection.m */; };
-		6B61498419A4D14700E4AA71 /* EGOImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61498219A4D14700E4AA71 /* EGOImageLoader.m */; };
-		6B61498719A4D14C00E4AA71 /* EGOImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61498619A4D14C00E4AA71 /* EGOImageView.m */; };
+		6B61497E19A4D14100E4AA71 /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61497D19A4D14100E4AA71 /* EGOCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6B61498319A4D14700E4AA71 /* EGOImageLoadConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61498019A4D14700E4AA71 /* EGOImageLoadConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6B61498419A4D14700E4AA71 /* EGOImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61498219A4D14700E4AA71 /* EGOImageLoader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6B61498719A4D14C00E4AA71 /* EGOImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61498619A4D14C00E4AA71 /* EGOImageView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6BEF8C1B19A459AA00729D36 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEF8C1A19A459AA00729D36 /* Foundation.framework */; };
 		6BEF8C1D19A459AA00729D36 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEF8C1C19A459AA00729D36 /* CoreGraphics.framework */; };
 		6BEF8C1F19A459AA00729D36 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEF8C1E19A459AA00729D36 /* UIKit.framework */; };
