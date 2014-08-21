@@ -28,12 +28,28 @@
     self.loading = NO;
 }
 
+- (UIImage *)showingImage
+{
+    if (self.image) {
+        return self.image;
+    } else if (self.imageView.image) {
+        return self.imageView.image;
+    } else {
+        return self.thumbnail;
+    }
+}
+
 
 
 #pragma mark - Set up
 - (id)init
 {
-    self = [super init];
+    return [self initWithFrame:CGRectZero];
+}
+
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
     if (self) {
         self.delegate = self;
         self.showsHorizontalScrollIndicator = NO;
@@ -67,7 +83,7 @@
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleBackgroundViewTap)];
         tapGesture.numberOfTapsRequired = 1;
         [self addGestureRecognizer:tapGesture];
-        
+         NSLog(@"w: %f, h: %f", self.bounds.size.width, self.bounds.size.height);
     }
     return self;
 }
@@ -77,7 +93,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-   
+    
     if (_isNeedCenter) {
         // Center the image as it becomes smaller than the size of the screen
         CGSize boundsSize = self.bounds.size;

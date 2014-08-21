@@ -11,11 +11,16 @@
 
 #import "PhotoViewerViewController.h"
 
-@interface TableViewController () <UITableViewDelegate, UITableViewDataSource, TableViewCellDelegate, PhotoViewerDelegate>
+//#import "TGRImageZoomAnimationController.h"
+#import "ImageZoomPresentAnimation.h"
+
+@interface TableViewController () <UITableViewDelegate, UITableViewDataSource, TableViewCellDelegate, PhotoViewerDelegate, UIViewControllerTransitioningDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) TableViewCell *selectedCell;
+@property (nonatomic, strong) UIImageView *referenceImageView;
 
+@property (nonatomic, strong) PhotoViewerViewController *pvc;
 @end
 
 @implementation TableViewController
@@ -76,12 +81,23 @@
     referenceImageView.frame = [self.view convertRect:imageView.frame fromView:cell];
     referenceImageView.contentMode = UIViewContentModeScaleAspectFill;
     referenceImageView.clipsToBounds = YES;
+    self.referenceImageView = referenceImageView;
 
-    PhotoViewerViewController *pvc = [[PhotoViewerViewController alloc] initWithDelegate:self];
+    self.pvc = [[PhotoViewerViewController alloc] initWithDelegate:self];
+    self.pvc.transitioningDelegate = self;
+    
     // Tell PhotoViewer photo in which index you want to show first
     // If referenceImageView is set to nil, showing with no animation
-    [pvc firstShowPageAtIndex:imageView.tag - 1 referenceImageView:referenceImageView];
-    [self presentViewController:pvc animated:NO completion:nil];
+    [self.pvc firstShowPageAtIndex:imageView.tag - 1 referenceImageView:referenceImageView];
+    [self presentViewController:self.pvc animated:YES completion:nil];
+}
+
+#pragma mark - Dismiss 
+- (void)dismissViewController
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        self.pvc = nil;
+    }];
 }
 
 #pragma mark - PhotoViewer delegate
@@ -106,5 +122,36 @@
     return ((UIImageView *)self.selectedCell.imageViews[index]).image;
 }
 
+
+#pragma mark - Transition delegate
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+    if ([presented isKindOfClass:PhotoViewerViewController.class]) {
+        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageView:self.referenceImageView];
+    }
+    return nil;
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    if ([dismissed isKindOfClass:PhotoViewerViewController.class]) {
+        UIImageView *currentImageView = [self currentCellImageViewAtIndex:self.pvc.currentPageIndex];
+        UIImageView *referenceImageView = [[UIImageView alloc] initWithImage:currentImageView.image];
+        referenceImageView.frame = [self.view convertRect:currentImageView.frame fromView:self.selectedCell];
+        referenceImageView.contentMode = UIViewContentModeScaleAspectFill;
+        referenceImageView.clipsToBounds = YES;
+        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageView:self.referenceImageView];
+    }
+    return nil;
+}
+                                           
+#pragma mark - Helpers
+- (UIImageView *)currentCellImageViewAtIndex: (NSUInteger)index
+{
+    if (!self.selectedCell || index >= self.selectedCell.imageViews.count) {
+        return nil;
+    }
+    return self.selectedCell.imageViews[index];
+}
+                                           
+                                    
 
 @end

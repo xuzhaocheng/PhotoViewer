@@ -18,6 +18,11 @@
 		6B61498719A4D14C00E4AA71 /* EGOImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61498619A4D14C00E4AA71 /* EGOImageView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6B61498A19A5BA1400E4AA71 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61498919A5BA1400E4AA71 /* TableViewController.m */; };
 		6B61498D19A5BABC00E4AA71 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61498C19A5BABC00E4AA71 /* TableViewCell.m */; };
+		6B61499919A6140100E4AA71 /* TGRImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61499319A6140100E4AA71 /* TGRImageViewController.m */; };
+		6B61499A19A6140100E4AA71 /* TGRImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B61499419A6140100E4AA71 /* TGRImageViewController.xib */; };
+		6B61499B19A6140100E4AA71 /* TGRImageZoomAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61499619A6140100E4AA71 /* TGRImageZoomAnimationController.m */; };
+		6B61499C19A6140100E4AA71 /* UIImage+AspectFit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61499819A6140100E4AA71 /* UIImage+AspectFit.m */; };
+		6B61499F19A619A600E4AA71 /* ImageZoomPresentAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61499E19A619A600E4AA71 /* ImageZoomPresentAnimation.m */; };
 		6BEF8C1B19A459AA00729D36 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEF8C1A19A459AA00729D36 /* Foundation.framework */; };
 		6BEF8C1D19A459AA00729D36 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEF8C1C19A459AA00729D36 /* CoreGraphics.framework */; };
 		6BEF8C1F19A459AA00729D36 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEF8C1E19A459AA00729D36 /* UIKit.framework */; };
@@ -63,6 +68,15 @@
 		6B61498919A5BA1400E4AA71 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		6B61498B19A5BABC00E4AA71 /* TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
 		6B61498C19A5BABC00E4AA71 /* TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
+		6B61499219A6140100E4AA71 /* TGRImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGRImageViewController.h; sourceTree = "<group>"; };
+		6B61499319A6140100E4AA71 /* TGRImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGRImageViewController.m; sourceTree = "<group>"; };
+		6B61499419A6140100E4AA71 /* TGRImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TGRImageViewController.xib; sourceTree = "<group>"; };
+		6B61499519A6140100E4AA71 /* TGRImageZoomAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGRImageZoomAnimationController.h; sourceTree = "<group>"; };
+		6B61499619A6140100E4AA71 /* TGRImageZoomAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGRImageZoomAnimationController.m; sourceTree = "<group>"; };
+		6B61499719A6140100E4AA71 /* UIImage+AspectFit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+AspectFit.h"; sourceTree = "<group>"; };
+		6B61499819A6140100E4AA71 /* UIImage+AspectFit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AspectFit.m"; sourceTree = "<group>"; };
+		6B61499D19A619A600E4AA71 /* ImageZoomPresentAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageZoomPresentAnimation.h; sourceTree = "<group>"; };
+		6B61499E19A619A600E4AA71 /* ImageZoomPresentAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageZoomPresentAnimation.m; sourceTree = "<group>"; };
 		6BEF8C1719A459AA00729D36 /* PhotoViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BEF8C1A19A459AA00729D36 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6BEF8C1C19A459AA00729D36 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -107,6 +121,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B61499119A6139900E4AA71 /* vertigo */ = {
+			isa = PBXGroup;
+			children = (
+				6B61499219A6140100E4AA71 /* TGRImageViewController.h */,
+				6B61499319A6140100E4AA71 /* TGRImageViewController.m */,
+				6B61499419A6140100E4AA71 /* TGRImageViewController.xib */,
+				6B61499519A6140100E4AA71 /* TGRImageZoomAnimationController.h */,
+				6B61499619A6140100E4AA71 /* TGRImageZoomAnimationController.m */,
+				6B61499719A6140100E4AA71 /* UIImage+AspectFit.h */,
+				6B61499819A6140100E4AA71 /* UIImage+AspectFit.m */,
+			);
+			name = vertigo;
+			sourceTree = "<group>";
+		};
 		6BEF8C0E19A459AA00729D36 = {
 			isa = PBXGroup;
 			children = (
@@ -152,6 +180,9 @@
 				6B61494B19A4613300E4AA71 /* PhotoViewerViewController.m */,
 				6B61494E19A4906600E4AA71 /* PhotoZoomingScrollView.h */,
 				6B61494F19A4906600E4AA71 /* PhotoZoomingScrollView.m */,
+				6B61499D19A619A600E4AA71 /* ImageZoomPresentAnimation.h */,
+				6B61499E19A619A600E4AA71 /* ImageZoomPresentAnimation.m */,
+				6B61499119A6139900E4AA71 /* vertigo */,
 				6BEF8C2C19A459AA00729D36 /* Images.xcassets */,
 				6B61497219A4A8F000E4AA71 /* 0.jpg */,
 				6B61497319A4A8F000E4AA71 /* 1.jpg */,
@@ -277,6 +308,7 @@
 				6B61497519A4A8F000E4AA71 /* 0.jpg in Resources */,
 				6BEF8C2519A459AA00729D36 /* InfoPlist.strings in Resources */,
 				6B61497719A4A8F000E4AA71 /* 2.jpg in Resources */,
+				6B61499A19A6140100E4AA71 /* TGRImageViewController.xib in Resources */,
 				6BEF8C2D19A459AA00729D36 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,7 +329,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B61498719A4D14C00E4AA71 /* EGOImageView.m in Sources */,
+				6B61499B19A6140100E4AA71 /* TGRImageZoomAnimationController.m in Sources */,
 				6B61498419A4D14700E4AA71 /* EGOImageLoader.m in Sources */,
+				6B61499919A6140100E4AA71 /* TGRImageViewController.m in Sources */,
 				6BEF8C4B19A459B800729D36 /* ViewController.m in Sources */,
 				6B61498A19A5BA1400E4AA71 /* TableViewController.m in Sources */,
 				6B61494C19A4613300E4AA71 /* PhotoViewerViewController.m in Sources */,
@@ -306,7 +340,9 @@
 				6B61498319A4D14700E4AA71 /* EGOImageLoadConnection.m in Sources */,
 				6BEF8C2719A459AA00729D36 /* main.m in Sources */,
 				6B61498D19A5BABC00E4AA71 /* TableViewCell.m in Sources */,
+				6B61499F19A619A600E4AA71 /* ImageZoomPresentAnimation.m in Sources */,
 				6B61495019A4906600E4AA71 /* PhotoZoomingScrollView.m in Sources */,
+				6B61499C19A6140100E4AA71 /* UIImage+AspectFit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
