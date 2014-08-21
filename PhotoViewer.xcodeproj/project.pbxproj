@@ -110,11 +110,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6B61499119A6139900E4AA71 /* vertigo */ = {
+		6BDB14CC19A642EA00F033F9 /* PhotoViewer */ = {
 			isa = PBXGroup;
 			children = (
+				6B61494A19A4613300E4AA71 /* PhotoViewer.h */,
+				6B61494B19A4613300E4AA71 /* PhotoViewer.m */,
+				6B61494E19A4906600E4AA71 /* PhotoZoomingScrollView.h */,
+				6B61494F19A4906600E4AA71 /* PhotoZoomingScrollView.m */,
+				6B61499D19A619A600E4AA71 /* ImageZoomPresentAnimation.h */,
+				6B61499E19A619A600E4AA71 /* ImageZoomPresentAnimation.m */,
 			);
-			name = vertigo;
+			name = PhotoViewer;
 			sourceTree = "<group>";
 		};
 		6BEF8C0E19A459AA00729D36 = {
@@ -158,13 +164,7 @@
 				6B61498919A5BA1400E4AA71 /* TableViewController.m */,
 				6B61498B19A5BABC00E4AA71 /* TableViewCell.h */,
 				6B61498C19A5BABC00E4AA71 /* TableViewCell.m */,
-				6B61494A19A4613300E4AA71 /* PhotoViewer.h */,
-				6B61494B19A4613300E4AA71 /* PhotoViewer.m */,
-				6B61494E19A4906600E4AA71 /* PhotoZoomingScrollView.h */,
-				6B61494F19A4906600E4AA71 /* PhotoZoomingScrollView.m */,
-				6B61499D19A619A600E4AA71 /* ImageZoomPresentAnimation.h */,
-				6B61499E19A619A600E4AA71 /* ImageZoomPresentAnimation.m */,
-				6B61499119A6139900E4AA71 /* vertigo */,
+				6BDB14CC19A642EA00F033F9 /* PhotoViewer */,
 				6BEF8C2C19A459AA00729D36 /* Images.xcassets */,
 				6B61497219A4A8F000E4AA71 /* 0.jpg */,
 				6B61497319A4A8F000E4AA71 /* 1.jpg */,

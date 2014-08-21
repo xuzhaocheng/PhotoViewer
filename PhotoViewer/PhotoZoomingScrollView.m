@@ -37,7 +37,6 @@
 }
 
 
-
 #pragma mark - Set up
 - (id)init
 {
@@ -62,7 +61,6 @@
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
         self.imageView.clipsToBounds = YES;
         self.imageView.userInteractionEnabled = YES;
-        self.imageView.backgroundColor = [UIColor redColor];
         
         UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
         doubleTapGesture.numberOfTapsRequired = 2;

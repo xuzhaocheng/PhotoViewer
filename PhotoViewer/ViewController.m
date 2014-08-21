@@ -31,11 +31,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-//    [button setTitle:@"click me" forState:UIControlStateNormal];
-//    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//    [self.view addSubview:button];
-//    [button addTarget:self action:@selector(click) forControlEvents:UIControlEventTouchUpInside];
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
