@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @protocol PhotoZoomingScrollViewDelegate <NSObject>
-- (void)singleTap;
+- (void)tapToDismiss;
 @end
 
 @interface PhotoZoomingScrollView : UIScrollView
@@ -20,6 +20,10 @@
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) NSURL *imageUrl;
 
+@property (nonatomic, getter = isLoading, readonly) BOOL loading;
+
 - (void)display;
 - (void)prepareForReuse;
+- (void)animationFromRect: (CGRect)rect;
+- (void)animationToRect:(CGRect)rect completion:(void(^)())block;
 @end

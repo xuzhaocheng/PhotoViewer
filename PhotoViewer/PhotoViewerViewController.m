@@ -14,29 +14,31 @@
 @interface PhotoViewerViewController () <UIScrollViewDelegate, PhotoZoomingScrollViewDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UIPageControl *pageController;
+
 @property (nonatomic, strong) NSMutableSet *recyclePages;
+
+@property (nonatomic, strong) UIImageView *referenceImageView;
+@property (nonatomic) NSUInteger currentPageIndex;
+
+@property (nonatomic) BOOL networkMode;
 
 @end
 
 @implementation PhotoViewerViewController
-{
-    NSUInteger _currentPageIndex;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (id)initWithDelegate: (id <PhotoViewerDelegate>)delegate
 {
     self = [super init];
     if (self) {
         self.delegate = delegate;
+        
+        if ([_delegate respondsToSelector:@selector(photoViewer:photoUrlAtIndex:)]) {
+            self.networkMode = YES;
+        } else {
+            self.networkMode = NO;
+        }
+        
         self.recyclePages = [[NSMutableSet alloc] init];
     }
     return self;
@@ -45,7 +47,7 @@
 - (void)loadView
 {
     self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor clearColor];
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectIntegral(CGRectMake(-PADDING, 0, self.view.bounds.size.width + 2 * PADDING, self.view.bounds.size.height))];
     self.scrollView.backgroundColor = [UIColor blackColor];
     self.scrollView.delegate = self;
@@ -54,19 +56,56 @@
     self.scrollView.showsVerticalScrollIndicator = NO;
     self.scrollView.contentSize = [self contentSizeForScrollView];
     [self.view addSubview:self.scrollView];
+    
+    self.pageController = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 30, self.view.bounds.size.width, 20)];
+    self.pageController.numberOfPages = [self numberOfPhotos];
+    self.pageController.currentPage = _currentPageIndex;
+    [self.view insertSubview:self.pageController aboveSubview:self.scrollView];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self displayPhotoAtIndex:_currentPageIndex];
+    [self moveToPageAtIndex:_currentPageIndex];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    // do animation
+    PhotoZoomingScrollView *currentPage = (PhotoZoomingScrollView *)[self.scrollView viewWithTag:_currentPageIndex + 1];
+    if (!currentPage.isLoading && self.referenceImageView) {
+        CGRect referenceFrame = self.referenceImageView.frame;
+        [currentPage animationFromRect:referenceFrame];
+    }
+    
+}
+
+#pragma mark - Methods
+- (void)firstShowPageAtIndex: (NSUInteger)index referenceImageView: (UIImageView *)imageView
+{
+    self.currentPageIndex = index;
+    self.referenceImageView = imageView;
+}
+
+#pragma mark - Helpers
+- (void)moveToPageAtIndex: (NSUInteger)index
+{
+    [self.scrollView setContentOffset:CGPointMake(self.scrollView.bounds.size.width * index, 0)];
+}
+
+#pragma mark - Properties
+- (void)setCurrentPageIndex:(NSUInteger)currentPageIndex
+{
+    _currentPageIndex = currentPageIndex;
+    self.pageController.currentPage = currentPageIndex;
 }
 
 
@@ -87,7 +126,14 @@
     
     PhotoZoomingScrollView *page = [self dequeueRecyclePage];
     page.frame = CGRectMake(index * self.scrollView.frame.size.width + PADDING, 0, self.view.bounds.size.width, self.view.bounds.size.height);
-    page.image = [self photoAtIndex:index];
+    
+    if (!self.networkMode) {
+        page.image = [self photoAtIndex:index];
+    } else {
+        page.imageUrl = [self photoUrlAtIndex:index];
+        page.thumbnail = [self thumbnailAtIndex:index];
+    }
+    
     page.tag = index + 1;
     [page display];
     [self.scrollView addSubview:page];
@@ -114,7 +160,7 @@
     if (_currentPageIndex == currentPage) {
         return;
     }
-    _currentPageIndex = currentPage;
+    self.currentPageIndex = currentPage;
     
     // remove all pages except -1 0 +1 pages
     for (NSInteger i = 0; i < [self numberOfPhotos]; i++) {
@@ -130,14 +176,23 @@
 }
 
 #pragma mark - PhotoZoomingScrollView delegate
-- (void)singleTap
+- (void)tapToDismiss
 {
     if ([_delegate respondsToSelector:@selector(dismissViewController)]) {
         [_delegate dismissViewController];
     } else {
-        [self dismissViewControllerAnimated:NO completion:nil];
+        
+        if (self.referenceImageView) {
+            PhotoZoomingScrollView *currentPage = (PhotoZoomingScrollView *)[self.scrollView viewWithTag:_currentPageIndex + 1];
+            CGRect referenceFrame = self.referenceImageView.frame;
+            [currentPage animationToRect:referenceFrame completion:^{
+                [self dismissViewControllerAnimated:NO completion:nil];
+            }];
+        }
+        ;
     }
 }
+
 
 #pragma mark - Frame
 
@@ -178,8 +233,6 @@
     }
     return nil;
 }
-
-
 
 
 

@@ -12,11 +12,25 @@
 @interface PhotoZoomingScrollView () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) EGOImageView *imageView;
+@property (nonatomic, readwrite, getter = isLoading) BOOL loading;
 
 @end
 
 @implementation PhotoZoomingScrollView
+{
+    BOOL _isNeedCenter;
+}
 
+#pragma mark - Properties
+- (void)setImage:(UIImage *)image
+{
+    _image = image;
+    self.loading = NO;
+}
+
+
+
+#pragma mark - Set up
 - (id)init
 {
     self = [super init];
@@ -29,11 +43,14 @@
         self.minimumZoomScale = 1.0;
         self.maximumZoomScale = 3.0;
         self.zoomScale = 1.0f;
+        self.loading = YES;
+        _isNeedCenter = YES;
         
         self.imageView = [[EGOImageView alloc] init];
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
         self.imageView.clipsToBounds = YES;
         self.imageView.userInteractionEnabled = YES;
+        self.imageView.backgroundColor = [UIColor redColor];
         
         UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
         doubleTapGesture.numberOfTapsRequired = 2;
@@ -46,35 +63,46 @@
         [singleTapGesture requireGestureRecognizerToFail:doubleTapGesture];
         
         [self addSubview:self.imageView];
+        
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleBackgroundViewTap)];
+        tapGesture.numberOfTapsRequired = 1;
+        [self addGestureRecognizer:tapGesture];
+        
     }
     return self;
 }
 
 
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    // Center the image as it becomes smaller than the size of the screen
-    CGSize boundsSize = self.bounds.size;
-    CGRect frameToCenter = self.imageView.frame;
-    
-    // Horizontally
-    if (frameToCenter.size.width < boundsSize.width) {
-        frameToCenter.origin.x = floorf((boundsSize.width - frameToCenter.size.width) / 2.0);
-	} else {
-        frameToCenter.origin.x = 0;
-	}
-    
-    // Vertically
-    if (frameToCenter.size.height < boundsSize.height) {
-        frameToCenter.origin.y = floorf((boundsSize.height - frameToCenter.size.height) / 2.0);
-	} else {
-        frameToCenter.origin.y = 0;
-	}
-    
-	// Center
-	if (!CGRectEqualToRect(self.imageView.frame, frameToCenter))
-		self.imageView.frame = frameToCenter;
+   
+    if (_isNeedCenter) {
+        // Center the image as it becomes smaller than the size of the screen
+        CGSize boundsSize = self.bounds.size;
+        CGRect frameToCenter = self.imageView.frame;
+        
+        // Horizontally
+        if (frameToCenter.size.width < boundsSize.width) {
+            frameToCenter.origin.x = floorf((boundsSize.width - frameToCenter.size.width) / 2.0);
+        } else {
+            frameToCenter.origin.x = 0;
+        }
+        
+        // Vertically
+        if (frameToCenter.size.height < boundsSize.height) {
+            frameToCenter.origin.y = floorf((boundsSize.height - frameToCenter.size.height) / 2.0);
+        } else {
+            frameToCenter.origin.y = 0;
+        }
+        
+        // Center
+        if (!CGRectEqualToRect(self.imageView.frame, frameToCenter))
+            self.imageView.frame = frameToCenter;
+    } else {
+        _isNeedCenter = YES;
+    }
 }
 
 - (void)prepareForReuse
@@ -93,8 +121,15 @@
     self.zoomScale = 1;
     self.contentSize = CGSizeMake(0, 0);
     
-    self.imageView.image = self.image;
-    self.imageView.frame = CGRectMake(0, 0, self.image.size.width, self.image.size.height);
+    if (self.image) {
+        self.imageView.image = self.image;
+        self.imageView.frame = CGRectMake(0, 0, self.image.size.width, self.image.size.height);
+    } else {
+        self.imageView.placeholderImage = self.thumbnail;
+        [self.imageView setImageURL:self.imageUrl];
+        self.imageView.frame = CGRectMake(0, 0, self.thumbnail.size.width, self.thumbnail.size.height);
+    }
+    
     self.contentSize = self.imageView.frame.size;
     
     [self setMinMaxZoomScale];
@@ -146,6 +181,12 @@
 }
 
 #pragma mark - Tap Action
+- (void)handleBackgroundViewTap
+{
+    if ([_tapDelegate respondsToSelector:@selector(tapToDismiss)]) {
+        [_tapDelegate tapToDismiss];
+    }
+}
 
 - (void)handleDoubleTap: (UIGestureRecognizer *)tapGesture
 {
@@ -168,10 +209,33 @@
     if (self.zoomScale != self.minimumZoomScale) {
         [self setZoomScale:self.minimumZoomScale animated:YES];
     } else {
-        if ([_tapDelegate respondsToSelector:@selector(singleTap)]) {
-            [_tapDelegate singleTap];
+        if ([_tapDelegate respondsToSelector:@selector(tapToDismiss)]) {
+            [_tapDelegate tapToDismiss];
         }
     }
+}
+
+#pragma mark - Animation
+- (void)animationFromRect:(CGRect)rect
+{
+    CGRect finalFrame = self.imageView.frame;
+    self.imageView.frame = rect;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.imageView.frame = finalFrame;
+    }];
+}
+
+- (void)animationToRect:(CGRect)rect completion:(void(^)())block
+{
+    _isNeedCenter = NO;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.imageView.frame = rect;
+    } completion:^(BOOL finished) {
+        if (finished && block) {
+            block();
+        }
+    }];
+
 }
 
 @end

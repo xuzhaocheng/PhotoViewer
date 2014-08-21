@@ -12,12 +12,15 @@
 
 @protocol PhotoViewerDelegate <NSObject>
 
-- (NSUInteger)numberOfPhotos;
 - (void)dismissViewController;
 
-@optional
+- (NSUInteger)numberOfPhotos;
 - (UIImage *)photoViewer: (PhotoViewerViewController *)photoViewer thumbnailAtIndex: (NSUInteger)index;
+
+@optional
+// Uses photoViewer:photoAtIndex: first
 - (UIImage *)photoViewer: (PhotoViewerViewController *)photoViewer photoAtIndex: (NSUInteger)index;
+// If can not find photoViewer:photoAtIndex:, then uses photoViewer:photoUrlAtIndex:
 - (NSString *)photoViewer: (PhotoViewerViewController *)photoViewer photoUrlAtIndex: (NSUInteger)index;
 
 @end
@@ -27,4 +30,5 @@
 @property (nonatomic, weak) id <PhotoViewerDelegate> delegate;
 
 - (id)initWithDelegate: (id <PhotoViewerDelegate>)delegate;
+- (void)firstShowPageAtIndex: (NSUInteger)index referenceImageView: (UIImageView *)imageView;
 @end

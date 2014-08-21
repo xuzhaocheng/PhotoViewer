@@ -16,6 +16,8 @@
 		6B61498319A4D14700E4AA71 /* EGOImageLoadConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61498019A4D14700E4AA71 /* EGOImageLoadConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6B61498419A4D14700E4AA71 /* EGOImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61498219A4D14700E4AA71 /* EGOImageLoader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6B61498719A4D14C00E4AA71 /* EGOImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61498619A4D14C00E4AA71 /* EGOImageView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6B61498A19A5BA1400E4AA71 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61498919A5BA1400E4AA71 /* TableViewController.m */; };
+		6B61498D19A5BABC00E4AA71 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61498C19A5BABC00E4AA71 /* TableViewCell.m */; };
 		6BEF8C1B19A459AA00729D36 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEF8C1A19A459AA00729D36 /* Foundation.framework */; };
 		6BEF8C1D19A459AA00729D36 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEF8C1C19A459AA00729D36 /* CoreGraphics.framework */; };
 		6BEF8C1F19A459AA00729D36 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEF8C1E19A459AA00729D36 /* UIKit.framework */; };
@@ -57,6 +59,10 @@
 		6B61498219A4D14700E4AA71 /* EGOImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOImageLoader.m; sourceTree = "<group>"; };
 		6B61498519A4D14C00E4AA71 /* EGOImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOImageView.h; sourceTree = "<group>"; };
 		6B61498619A4D14C00E4AA71 /* EGOImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOImageView.m; sourceTree = "<group>"; };
+		6B61498819A5BA1400E4AA71 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
+		6B61498919A5BA1400E4AA71 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
+		6B61498B19A5BABC00E4AA71 /* TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
+		6B61498C19A5BABC00E4AA71 /* TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
 		6BEF8C1719A459AA00729D36 /* PhotoViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BEF8C1A19A459AA00729D36 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6BEF8C1C19A459AA00729D36 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -138,6 +144,10 @@
 				6BEF8C2A19A459AA00729D36 /* AppDelegate.m */,
 				6BEF8C4919A459B800729D36 /* ViewController.h */,
 				6BEF8C4A19A459B800729D36 /* ViewController.m */,
+				6B61498819A5BA1400E4AA71 /* TableViewController.h */,
+				6B61498919A5BA1400E4AA71 /* TableViewController.m */,
+				6B61498B19A5BABC00E4AA71 /* TableViewCell.h */,
+				6B61498C19A5BABC00E4AA71 /* TableViewCell.m */,
 				6B61494A19A4613300E4AA71 /* PhotoViewerViewController.h */,
 				6B61494B19A4613300E4AA71 /* PhotoViewerViewController.m */,
 				6B61494E19A4906600E4AA71 /* PhotoZoomingScrollView.h */,
@@ -289,11 +299,13 @@
 				6B61498719A4D14C00E4AA71 /* EGOImageView.m in Sources */,
 				6B61498419A4D14700E4AA71 /* EGOImageLoader.m in Sources */,
 				6BEF8C4B19A459B800729D36 /* ViewController.m in Sources */,
+				6B61498A19A5BA1400E4AA71 /* TableViewController.m in Sources */,
 				6B61494C19A4613300E4AA71 /* PhotoViewerViewController.m in Sources */,
 				6B61497E19A4D14100E4AA71 /* EGOCache.m in Sources */,
 				6BEF8C2B19A459AA00729D36 /* AppDelegate.m in Sources */,
 				6B61498319A4D14700E4AA71 /* EGOImageLoadConnection.m in Sources */,
 				6BEF8C2719A459AA00729D36 /* main.m in Sources */,
+				6B61498D19A5BABC00E4AA71 /* TableViewCell.m in Sources */,
 				6B61495019A4906600E4AA71 /* PhotoZoomingScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
