@@ -28,11 +28,8 @@
 @interface PhotoViewerViewController : UIViewController
 
 @property (nonatomic, weak) id <PhotoViewerDelegate> delegate;
-@property (nonatomic, readonly) NSUInteger currentPageIndex;
+@property (nonatomic) NSUInteger currentPageIndex;
 
 - (id)initWithDelegate: (id <PhotoViewerDelegate>)delegate;
-- (void)firstShowPageAtIndex: (NSUInteger)index referenceImageView: (UIImageView *)imageView;
-
 - (UIImage *)imageInPageAtIndex: (NSUInteger)index;
-
 @end

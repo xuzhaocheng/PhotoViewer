@@ -25,8 +25,6 @@
 
 - (void)display;
 - (void)prepareForReuse;
-- (void)animationFromRect: (CGRect)rect;
-- (void)animationToRect:(CGRect)rect completion:(void(^)())block;
 
 - (UIImage *)showingImage;
 @end

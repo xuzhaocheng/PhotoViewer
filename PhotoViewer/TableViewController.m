@@ -11,14 +11,12 @@
 
 #import "PhotoViewerViewController.h"
 
-//#import "TGRImageZoomAnimationController.h"
 #import "ImageZoomPresentAnimation.h"
 
 @interface TableViewController () <UITableViewDelegate, UITableViewDataSource, TableViewCellDelegate, PhotoViewerDelegate, UIViewControllerTransitioningDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) TableViewCell *selectedCell;
-@property (nonatomic, strong) UIImageView *referenceImageView;
 
 @property (nonatomic, strong) PhotoViewerViewController *pvc;
 @end
@@ -29,7 +27,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
+    self.title = @"Table View";
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -74,21 +73,11 @@
 - (void)tableViewCell:(TableViewCell *)cell didClickImageView:(UIImageView *)imageView
 {
     self.selectedCell = cell;
-    
-    // You should give the right frame of reference
-    // So PhotoViewer can show with animation correctly
-    UIImageView *referenceImageView = [[UIImageView alloc] initWithImage:imageView.image];
-    referenceImageView.frame = [self.view convertRect:imageView.frame fromView:cell];
-    referenceImageView.contentMode = UIViewContentModeScaleAspectFill;
-    referenceImageView.clipsToBounds = YES;
-    self.referenceImageView = referenceImageView;
 
     self.pvc = [[PhotoViewerViewController alloc] initWithDelegate:self];
     self.pvc.transitioningDelegate = self;
+    self.pvc.currentPageIndex = imageView.tag - 1;
     
-    // Tell PhotoViewer photo in which index you want to show first
-    // If referenceImageView is set to nil, showing with no animation
-    [self.pvc firstShowPageAtIndex:imageView.tag - 1 referenceImageView:referenceImageView];
     [self presentViewController:self.pvc animated:YES completion:nil];
 }
 
@@ -126,23 +115,29 @@
 #pragma mark - Transition delegate
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
     if ([presented isKindOfClass:PhotoViewerViewController.class]) {
-        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageView:self.referenceImageView];
+        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageView:[self referenceImageView]];
     }
     return nil;
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
     if ([dismissed isKindOfClass:PhotoViewerViewController.class]) {
-        UIImageView *currentImageView = [self currentCellImageViewAtIndex:self.pvc.currentPageIndex];
-        UIImageView *referenceImageView = [[UIImageView alloc] initWithImage:currentImageView.image];
-        referenceImageView.frame = [self.view convertRect:currentImageView.frame fromView:self.selectedCell];
-        referenceImageView.contentMode = UIViewContentModeScaleAspectFill;
-        referenceImageView.clipsToBounds = YES;
-        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageView:self.referenceImageView];
+        
+        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageView:[self referenceImageView]];
     }
     return nil;
 }
-                                           
+
+- (UIImageView *)referenceImageView
+{
+    UIImageView *currentImageView = [self currentCellImageViewAtIndex:self.pvc.currentPageIndex];
+    UIImageView *referenceImageView = [[UIImageView alloc] initWithImage:currentImageView.image];
+    referenceImageView.frame = [self.view convertRect:currentImageView.frame fromView:self.selectedCell];
+    referenceImageView.contentMode = UIViewContentModeScaleAspectFill;
+    referenceImageView.clipsToBounds = YES;
+    return referenceImageView;
+}
+
 #pragma mark - Helpers
 - (UIImageView *)currentCellImageViewAtIndex: (NSUInteger)index
 {

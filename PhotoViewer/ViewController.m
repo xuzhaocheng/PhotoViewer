@@ -7,11 +7,10 @@
 //
 
 #import "ViewController.h"
-#import "PhotoViewerViewController.h"
 
 #import "TableViewController.h"
 
-@interface ViewController () <PhotoViewerDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface ViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -81,21 +80,7 @@
     }
 }
 
-- (void)click
-{
-    PhotoViewerViewController *vc = [[PhotoViewerViewController alloc] initWithDelegate:self];
-    [self presentViewController:vc animated:NO completion:nil];
-}
 
-- (NSUInteger)numberOfPhotos
-{
-    return 3;
-}
-
-- (UIImage *)photoViewer:(PhotoViewerViewController *)photoViewer photoAtIndex:(NSUInteger)index
-{
-    return [UIImage imageNamed:[NSString stringWithFormat:@"%lu.jpg", (unsigned long)index]];
-}
 
 
 

@@ -18,11 +18,7 @@
 
 @property (nonatomic, strong) NSMutableSet *recyclePages;
 
-@property (nonatomic, strong) UIImageView *referenceImageView;
-@property (nonatomic, readwrite) NSUInteger currentPageIndex;
-
 @property (nonatomic) BOOL networkMode;
-
 
 @end
 
@@ -78,25 +74,7 @@
     [self moveToPageAtIndex:_currentPageIndex];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    // do animation
-//    PhotoZoomingScrollView *currentPage = (PhotoZoomingScrollView *)[self.scrollView viewWithTag:_currentPageIndex + 1];
-//    if (!currentPage.isLoading && self.referenceImageView) {
-//        CGRect referenceFrame = self.referenceImageView.frame;
-//        [currentPage animationFromRect:referenceFrame];
-//    }
-    
-}
-
 #pragma mark - Methods
-- (void)firstShowPageAtIndex: (NSUInteger)index referenceImageView: (UIImageView *)imageView
-{
-    self.currentPageIndex = index;
-    self.referenceImageView = imageView;
-}
 
 - (UIImage *)imageInPageAtIndex:(NSUInteger)index
 {
@@ -191,13 +169,6 @@
     if ([_delegate respondsToSelector:@selector(dismissViewController)]) {
         [_delegate dismissViewController];
     } else {
-//        if (self.referenceImageView) {
-//            PhotoZoomingScrollView *currentPage = (PhotoZoomingScrollView *)[self.scrollView viewWithTag:_currentPageIndex + 1];
-//            CGRect referenceFrame = self.referenceImageView.frame;
-//            [currentPage animationToRect:referenceFrame completion:^{
-//                [self dismissViewControllerAnimated:NO completion:nil];
-//            }];
-//        }
         [self dismissViewControllerAnimated:NO completion:nil];
     }
 }

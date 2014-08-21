@@ -17,9 +17,6 @@
 @end
 
 @implementation PhotoZoomingScrollView
-{
-    BOOL _isNeedCenter;
-}
 
 #pragma mark - Properties
 - (void)setImage:(UIImage *)image
@@ -60,7 +57,6 @@
         self.maximumZoomScale = 3.0;
         self.zoomScale = 1.0f;
         self.loading = YES;
-        _isNeedCenter = YES;
         
         self.imageView = [[EGOImageView alloc] init];
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -83,7 +79,6 @@
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleBackgroundViewTap)];
         tapGesture.numberOfTapsRequired = 1;
         [self addGestureRecognizer:tapGesture];
-         NSLog(@"w: %f, h: %f", self.bounds.size.width, self.bounds.size.height);
     }
     return self;
 }
@@ -93,32 +88,29 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+
+    // Center the image as it becomes smaller than the size of the screen
+    CGSize boundsSize = self.bounds.size;
+    CGRect frameToCenter = self.imageView.frame;
     
-    if (_isNeedCenter) {
-        // Center the image as it becomes smaller than the size of the screen
-        CGSize boundsSize = self.bounds.size;
-        CGRect frameToCenter = self.imageView.frame;
-        
-        // Horizontally
-        if (frameToCenter.size.width < boundsSize.width) {
-            frameToCenter.origin.x = floorf((boundsSize.width - frameToCenter.size.width) / 2.0);
-        } else {
-            frameToCenter.origin.x = 0;
-        }
-        
-        // Vertically
-        if (frameToCenter.size.height < boundsSize.height) {
-            frameToCenter.origin.y = floorf((boundsSize.height - frameToCenter.size.height) / 2.0);
-        } else {
-            frameToCenter.origin.y = 0;
-        }
-        
-        // Center
-        if (!CGRectEqualToRect(self.imageView.frame, frameToCenter))
-            self.imageView.frame = frameToCenter;
+    // Horizontally
+    if (frameToCenter.size.width < boundsSize.width) {
+        frameToCenter.origin.x = floorf((boundsSize.width - frameToCenter.size.width) / 2.0);
     } else {
-        _isNeedCenter = YES;
+        frameToCenter.origin.x = 0;
     }
+    
+    // Vertically
+    if (frameToCenter.size.height < boundsSize.height) {
+        frameToCenter.origin.y = floorf((boundsSize.height - frameToCenter.size.height) / 2.0);
+    } else {
+        frameToCenter.origin.y = 0;
+    }
+    
+    // Center
+    if (!CGRectEqualToRect(self.imageView.frame, frameToCenter))
+        self.imageView.frame = frameToCenter;
+   
 }
 
 - (void)prepareForReuse
@@ -229,29 +221,6 @@
             [_tapDelegate tapToDismiss];
         }
     }
-}
-
-#pragma mark - Animation
-- (void)animationFromRect:(CGRect)rect
-{
-    CGRect finalFrame = self.imageView.frame;
-    self.imageView.frame = rect;
-    [UIView animateWithDuration:0.3 animations:^{
-        self.imageView.frame = finalFrame;
-    }];
-}
-
-- (void)animationToRect:(CGRect)rect completion:(void(^)())block
-{
-    _isNeedCenter = NO;
-    [UIView animateWithDuration:0.3 animations:^{
-        self.imageView.frame = rect;
-    } completion:^(BOOL finished) {
-        if (finished && block) {
-            block();
-        }
-    }];
-
 }
 
 @end
