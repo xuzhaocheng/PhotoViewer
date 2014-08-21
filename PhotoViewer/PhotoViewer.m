@@ -6,12 +6,12 @@
 //  Copyright (c) 2014年 Zhejiang University. All rights reserved.
 //
 
-#import "PhotoViewerViewController.h"
+#import "PhotoViewer.h"
 #import "PhotoZoomingScrollView.h"
 
 #define PADDING     10.0
 
-@interface PhotoViewerViewController () <UIScrollViewDelegate, PhotoZoomingScrollViewDelegate>
+@interface PhotoViewer () <UIScrollViewDelegate, PhotoZoomingScrollViewDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIPageControl *pageController;
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation PhotoViewerViewController
+@implementation PhotoViewer
 
 - (id)initWithDelegate: (id <PhotoViewerDelegate>)delegate
 {

@@ -8,24 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
-@class PhotoViewerViewController;
+@class PhotoViewer;
 
 @protocol PhotoViewerDelegate <NSObject>
 
 - (void)dismissViewController;
 
 - (NSUInteger)numberOfPhotos;
-- (UIImage *)photoViewer: (PhotoViewerViewController *)photoViewer thumbnailAtIndex: (NSUInteger)index;
+- (UIImage *)photoViewer: (PhotoViewer *)photoViewer thumbnailAtIndex: (NSUInteger)index;
 
 @optional
 // Uses photoViewer:photoAtIndex: first
-- (UIImage *)photoViewer: (PhotoViewerViewController *)photoViewer photoAtIndex: (NSUInteger)index;
+- (UIImage *)photoViewer: (PhotoViewer *)photoViewer photoAtIndex: (NSUInteger)index;
 // If can not find photoViewer:photoAtIndex:, then uses photoViewer:photoUrlAtIndex:
-- (NSString *)photoViewer: (PhotoViewerViewController *)photoViewer photoUrlAtIndex: (NSUInteger)index;
+- (NSString *)photoViewer: (PhotoViewer *)photoViewer photoUrlAtIndex: (NSUInteger)index;
 
 @end
 
-@interface PhotoViewerViewController : UIViewController
+@interface PhotoViewer : UIViewController
 
 @property (nonatomic, weak) id <PhotoViewerDelegate> delegate;
 @property (nonatomic) NSUInteger currentPageIndex;

@@ -9,7 +9,7 @@
 #import "TableViewController.h"
 #import "TableViewCell.h"
 
-#import "PhotoViewerViewController.h"
+#import "PhotoViewer.h"
 
 #import "ImageZoomPresentAnimation.h"
 
@@ -18,7 +18,7 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) TableViewCell *selectedCell;
 
-@property (nonatomic, strong) PhotoViewerViewController *pvc;
+@property (nonatomic, strong) PhotoViewer *pvc;
 @end
 
 @implementation TableViewController
@@ -74,7 +74,7 @@
 {
     self.selectedCell = cell;
 
-    self.pvc = [[PhotoViewerViewController alloc] initWithDelegate:self];
+    self.pvc = [[PhotoViewer alloc] initWithDelegate:self];
     self.pvc.transitioningDelegate = self;
     self.pvc.currentPageIndex = imageView.tag - 1;
     
@@ -95,7 +95,7 @@
     return self.selectedCell.imageViews ? self.selectedCell.imageViews.count : 0;
 }
 
-- (UIImage *)photoViewer:(PhotoViewerViewController *)photoViewer photoAtIndex:(NSUInteger)index
+- (UIImage *)photoViewer:(PhotoViewer *)photoViewer photoAtIndex:(NSUInteger)index
 {
     if (!self.selectedCell.imageViews || index >= self.selectedCell.imageViews.count) {
         return nil;
@@ -103,7 +103,7 @@
     return ((UIImageView *)self.selectedCell.imageViews[index]).image;
 }
 
-- (UIImage *)photoViewer:(PhotoViewerViewController *)photoViewer thumbnailAtIndex:(NSUInteger)index
+- (UIImage *)photoViewer:(PhotoViewer *)photoViewer thumbnailAtIndex:(NSUInteger)index
 {
     if (!self.selectedCell.imageViews || index >= self.selectedCell.imageViews.count) {
         return nil;
@@ -114,14 +114,14 @@
 
 #pragma mark - Transition delegate
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
-    if ([presented isKindOfClass:PhotoViewerViewController.class]) {
+    if ([presented isKindOfClass:PhotoViewer.class]) {
         return [[ImageZoomPresentAnimation alloc] initWithReferenceImageView:[self referenceImageView]];
     }
     return nil;
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
-    if ([dismissed isKindOfClass:PhotoViewerViewController.class]) {
+    if ([dismissed isKindOfClass:PhotoViewer.class]) {
         
         return [[ImageZoomPresentAnimation alloc] initWithReferenceImageView:[self referenceImageView]];
     }

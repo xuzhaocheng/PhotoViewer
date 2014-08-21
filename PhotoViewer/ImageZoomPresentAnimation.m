@@ -7,7 +7,7 @@
 //
 
 #import "ImageZoomPresentAnimation.h"
-#import "PhotoViewerViewController.h"
+#import "PhotoViewer.h"
 
 @interface ImageZoomPresentAnimation ()
 @property (nonatomic, strong) UIImageView *referenceImageView;
@@ -43,7 +43,7 @@
 - (void)animateZoomInTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
     UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    PhotoViewerViewController *toVC = (PhotoViewerViewController *)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    PhotoViewer *toVC = (PhotoViewer *)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.referenceImageView.frame];
     imageView.image = self.referenceImageView.image;
@@ -78,7 +78,7 @@
 - (void)animateZoomOutTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
     UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    PhotoViewerViewController *fromVC = (PhotoViewerViewController *)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    PhotoViewer *fromVC = (PhotoViewer *)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
     toVC.view.alpha = 0;
     [transitionContext.containerView addSubview:toVC.view];
