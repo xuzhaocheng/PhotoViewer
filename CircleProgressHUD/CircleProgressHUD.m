@@ -8,7 +8,7 @@
 
 #import "CircleProgressHUD.h"
 
-#define SIDE_LENGTH     100.f
+#define SIDE_LENGTH     30.f
 
 @implementation CircleProgressHUD
 
@@ -41,10 +41,8 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    NSLog(@"w: %f, h: %f", self.bounds.size.width, self.bounds.size.height);
     UIBezierPath *background = [UIBezierPath bezierPathWithOvalInRect:self.bounds];
-//    [[UIColor colorWithWhite:0.3 alpha:0.8] setFill];
-    [[UIColor yellowColor] setFill];
+    [[UIColor colorWithWhite:0.3 alpha:0.8] setFill];
     [background fill];
     [background addClip];
     
@@ -70,12 +68,15 @@
 
 }
 
-- (void)fadeOutToRemove
+- (void)fadeOutToRemoveWithDuration: (NSTimeInterval)duration completion: (void(^)())completion
 {
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:duration animations:^{
         self.alpha = 0;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
+        if (completion) {
+            completion();
+        }
     }];
 }
 

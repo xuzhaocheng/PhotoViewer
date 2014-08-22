@@ -78,11 +78,12 @@
                             progressBlock(receivedSize, expectedSize);
                         }
                     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                        if (completedBlock) {
-                            completedBlock(image, error, cacheType, imageURL);
-                        }
                         hud.progress = 1;
-                        [hud fadeOutToRemove];
+                        [hud fadeOutToRemoveWithDuration:0.2 completion:^{
+                            if (completedBlock) {
+                                completedBlock(image, error, cacheType, imageURL);
+                            }
+                        }];
                     }];
 }
 

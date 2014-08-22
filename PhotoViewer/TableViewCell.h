@@ -22,4 +22,5 @@
 @property (nonatomic, readonly, strong) NSArray *imageViews;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier images:(NSArray *)images;
+- (void)setImages:(NSArray *)images;
 @end

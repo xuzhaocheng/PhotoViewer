@@ -10,17 +10,17 @@
 #import "PhotoViewer.h"
 
 @interface ImageZoomPresentAnimation ()
-@property (nonatomic, strong) UIImageView *referenceImageView;
+@property (nonatomic) CGRect referenceImageViewFrame;
 @end
 
 @implementation ImageZoomPresentAnimation
 
 
-- (id)initWithReferenceImageView: (UIImageView *)refercenImageView
+- (id)initWithReferenceImageViewFrame:(CGRect)refercenImageViewFrame
 {
     self = [super init];
     if (self) {
-        self.referenceImageView = refercenImageView;
+        self.referenceImageViewFrame = refercenImageViewFrame;
     }
     return self;
 }
@@ -45,8 +45,8 @@
     UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     PhotoViewer *toVC = (PhotoViewer *)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.referenceImageView.frame];
-    imageView.image = self.referenceImageView.image;
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.referenceImageViewFrame];
+    imageView.image = [toVC imageInPageAtIndex:toVC.currentPageIndex];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.clipsToBounds = YES;
     
@@ -55,9 +55,7 @@
     containerView.backgroundColor = [UIColor blackColor];
     
     CGRect finalFrame = [transitionContext finalFrameForViewController:toVC];
-    CGRect imageViewFinalFrame = [self resizeImage:self.referenceImageView.image forRect:finalFrame]; //CGRectMake(floor((finalFrame.size.width - imageSize.width) / 2),
-                                   //floor((finalFrame.size.height - imageSize.height) / 2),
-                                   //imageSize.width, imageSize.height);
+    CGRect imageViewFinalFrame = [self resizeImage:imageView.image forRect:finalFrame];
     
     [UIView animateWithDuration:[self transitionDuration:transitionContext]
                           delay:0
@@ -104,7 +102,7 @@
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          toVC.view.alpha = 1.0;
-                         imageView.frame = self.referenceImageView.frame;
+                         imageView.frame = self.referenceImageViewFrame;
                      } completion:^(BOOL finished) {
                          [imageView removeFromSuperview];
                          [transitionContext completeTransition:YES];
@@ -121,9 +119,6 @@
     CGFloat yScale = rect.size.height / imageSize.height;
     CGFloat minScale = MIN(xScale, yScale);
     
-    if (minScale > 1) {
-        minScale = 1;
-    }
     imageSize.width = minScale * imageSize.width;
     imageSize.height = minScale * imageSize.height;
     

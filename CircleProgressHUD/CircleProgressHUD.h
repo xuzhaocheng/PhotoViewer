@@ -14,6 +14,5 @@
 
 - (id)initWithView:(UIView *)view;
 
-- (void)fadeOutToRemove;
-
+- (void)fadeOutToRemoveWithDuration: (NSTimeInterval)duration completion: (void(^)())completion;
 @end

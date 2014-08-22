@@ -8,7 +8,8 @@
 
 
 /* ******************************************
-* Some codes are from MWPhoto Brower https://github.com/mwaterfall/MWPhotoBrowser
+* Some codes are from MWPhoto Brower
+* https://github.com/mwaterfall/MWPhotoBrowser
  ********************************************/
 
 #import "PhotoZoomingScrollView.h"
@@ -140,9 +141,9 @@
         [self setMinMaxZoomScale];
         [self setNeedsLayout];
     } else {
-        self.imageView.frame = CGRectMake(0, 0, self.thumbnail.size.width, self.thumbnail.size.height);
+        self.imageView.frame = [self resizePlaceHolderImage];
         [self.imageView pHUD_setImageWithURL:self.imageUrl
-                            placeholderImage:nil
+                            placeholderImage:self.thumbnail
                                      options:SDWebImageCacheMemoryOnly | SDWebImageContinueInBackground
                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                        if (!error) {
@@ -158,17 +159,17 @@
 }
 
 #pragma mark - Helpers
-- (CGSize)resizePlaceHolderImage
+- (CGRect)resizePlaceHolderImage
 {
     CGSize placeHolderImageSize = self.thumbnail.size;
     CGFloat xScale = self.bounds.size.width / placeHolderImageSize.width;
     CGFloat yScale = self.bounds.size.height / placeHolderImageSize.height;
     CGFloat minScale = MIN(xScale, yScale);
     
-    if (minScale < 1) {
-        placeHolderImageSize.width *= minScale;
-        placeHolderImageSize.height *= minScale;
-    }
+    placeHolderImageSize.width *= minScale;
+    placeHolderImageSize.height *= minScale;
+
+    return CGRectMake(self.bounds.size.width / 2, self.bounds.size.height / 2, placeHolderImageSize.width, placeHolderImageSize.height);
 }
 
 - (void)setMinMaxZoomScale
