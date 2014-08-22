@@ -8,7 +8,7 @@
 
 #import "CircleProgressHUD.h"
 
-#define SIDE_LENGTH     30.f
+#define SIDE_LENGTH     100.f
 
 @implementation CircleProgressHUD
 
@@ -41,8 +41,10 @@
 
 - (void)drawRect:(CGRect)rect
 {
+    NSLog(@"w: %f, h: %f", self.bounds.size.width, self.bounds.size.height);
     UIBezierPath *background = [UIBezierPath bezierPathWithOvalInRect:self.bounds];
-    [[UIColor colorWithWhite:0.3 alpha:0.8] setFill];
+//    [[UIColor colorWithWhite:0.3 alpha:0.8] setFill];
+    [[UIColor yellowColor] setFill];
     [background fill];
     [background addClip];
     

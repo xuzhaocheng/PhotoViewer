@@ -124,7 +124,7 @@
     self.zoomScale = 1.0;
 }
 
-#pragma mark - Set up
+#pragma mark - Method
 
 - (void)display
 {
@@ -157,6 +157,19 @@
     
 }
 
+#pragma mark - Helpers
+- (CGSize)resizePlaceHolderImage
+{
+    CGSize placeHolderImageSize = self.thumbnail.size;
+    CGFloat xScale = self.bounds.size.width / placeHolderImageSize.width;
+    CGFloat yScale = self.bounds.size.height / placeHolderImageSize.height;
+    CGFloat minScale = MIN(xScale, yScale);
+    
+    if (minScale < 1) {
+        placeHolderImageSize.width *= minScale;
+        placeHolderImageSize.height *= minScale;
+    }
+}
 
 - (void)setMinMaxZoomScale
 {
