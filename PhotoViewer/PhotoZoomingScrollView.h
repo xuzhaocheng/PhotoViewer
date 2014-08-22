@@ -16,7 +16,11 @@
 
 @property (nonatomic, weak) id <PhotoZoomingScrollViewDelegate> tapDelegate;
 
+// Use image first
 @property (nonatomic, strong) UIImage *image;
+
+// if image is nil, uses thumbnail as placeholder.
+// wanting for image loading.
 @property (nonatomic, strong) UIImage *thumbnail;
 @property (nonatomic, strong) NSURL *imageUrl;
 

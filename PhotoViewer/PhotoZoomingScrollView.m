@@ -6,12 +6,17 @@
 //  Copyright (c) 2014年 Zhejiang University. All rights reserved.
 //
 
+
+/* ******************************************
+* Some codes are from MWPhoto Brower https://github.com/mwaterfall/MWPhotoBrowser
+ ********************************************/
+
 #import "PhotoZoomingScrollView.h"
-#import "EGOImageView.h"
+#import "UIImageView+ProgressHUDForSDWebImage.h"
 
 @interface PhotoZoomingScrollView () <UIScrollViewDelegate>
 
-@property (nonatomic, strong) EGOImageView *imageView;
+@property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, readwrite, getter = isLoading) BOOL loading;
 
 @end
@@ -57,7 +62,7 @@
         self.zoomScale = 1.0f;
         self.loading = YES;
         
-        self.imageView = [[EGOImageView alloc] init];
+        self.imageView = [[UIImageView alloc] init];
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
         self.imageView.clipsToBounds = YES;
         self.imageView.userInteractionEnabled = YES;
@@ -86,10 +91,11 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-
+    
     // Center the image as it becomes smaller than the size of the screen
     CGSize boundsSize = self.bounds.size;
     CGRect frameToCenter = self.imageView.frame;
+    
     
     // Horizontally
     if (frameToCenter.size.width < boundsSize.width) {
@@ -130,23 +136,25 @@
     if (self.image) {
         self.imageView.image = self.image;
         self.imageView.frame = CGRectMake(0, 0, self.image.size.width, self.image.size.height);
+        self.contentSize = self.imageView.frame.size;
+        [self setMinMaxZoomScale];
+        [self setNeedsLayout];
     } else {
-        self.imageView.placeholderImage = self.thumbnail;
-        [self.imageView setImageURL:self.imageUrl];
         self.imageView.frame = CGRectMake(0, 0, self.thumbnail.size.width, self.thumbnail.size.height);
+        [self.imageView pHUD_setImageWithURL:self.imageUrl
+                            placeholderImage:nil
+                                     options:SDWebImageCacheMemoryOnly | SDWebImageContinueInBackground
+                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                       if (!error) {
+                                            self.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+                                           self.contentSize = self.imageView.frame.size;
+                                           [self setMinMaxZoomScale];
+                                           [self setNeedsLayout];
+                                       }
+        }];
     }
+
     
-    self.contentSize = self.imageView.frame.size;
-    
-    [self setMinMaxZoomScale];
-    
-    if (self.imageUrl) {
-        self.imageView.placeholderImage = self.thumbnail;
-        [self.imageView setImageURL:self.imageUrl];
-    } else {
-        self.imageView.image = self.image;
-    }
-    [self setNeedsLayout];
 }
 
 
@@ -176,7 +184,6 @@
     self.maximumZoomScale = maxScale;
 	self.minimumZoomScale = minScale;
     self.zoomScale = self.minimumZoomScale;
-    
 }
 
 

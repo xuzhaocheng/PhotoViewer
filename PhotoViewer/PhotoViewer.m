@@ -18,8 +18,6 @@
 
 @property (nonatomic, strong) NSMutableSet *recyclePages;
 
-@property (nonatomic) BOOL networkMode;
-
 @end
 
 @implementation PhotoViewer
@@ -29,13 +27,6 @@
     self = [super init];
     if (self) {
         self.delegate = delegate;
-        
-        if ([_delegate respondsToSelector:@selector(photoViewer:photoUrlAtIndex:)]) {
-            self.networkMode = YES;
-        } else {
-            self.networkMode = NO;
-        }
-        
         self.recyclePages = [[NSMutableSet alloc] init];
     }
     return self;
@@ -114,15 +105,12 @@
     PhotoZoomingScrollView *page = [self dequeueRecyclePage];
     page.frame = CGRectMake(index * self.scrollView.frame.size.width + PADDING, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     
-    if (!self.networkMode) {
-        page.image = [self photoAtIndex:index];
-    } else {
-        page.imageUrl = [self photoUrlAtIndex:index];
-        page.thumbnail = [self thumbnailAtIndex:index];
-    }
-    
+    page.image = [self photoAtIndex:index];
+    page.imageUrl = [self photoUrlAtIndex:index];
+    page.thumbnail = [self thumbnailAtIndex:index];
     page.tag = index + 1;
     [page display];
+    
     [self.scrollView addSubview:page];
 }
 

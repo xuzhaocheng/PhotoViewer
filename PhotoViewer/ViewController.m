@@ -9,6 +9,7 @@
 #import "ViewController.h"
 
 #import "TableViewController.h"
+#import "UIImageView+WebCache.h"
 
 @interface ViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -31,14 +32,23 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = @"Photo Viewer";
     
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Clear Cache" style:UIBarButtonItemStylePlain target:self action:@selector(clearCache)];
+    
+    [self clearCache];
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
 }
 
+- (void)clearCache
+{
+    [[SDWebImageManager sharedManager].imageCache clearMemory];
+    [[SDWebImageManager sharedManager].imageCache clearDisk];
 
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

@@ -97,10 +97,16 @@
 
 - (UIImage *)photoViewer:(PhotoViewer *)photoViewer photoAtIndex:(NSUInteger)index
 {
-    if (!self.selectedCell.imageViews || index >= self.selectedCell.imageViews.count) {
+    if (index >= 1) {
+//    if (!self.selectedCell.imageViews || index >= self.selectedCell.imageViews.count) {
         return nil;
     }
     return ((UIImageView *)self.selectedCell.imageViews[index]).image;
+}
+
+- (NSString *)photoViewer:(PhotoViewer *)photoViewer photoUrlAtIndex:(NSUInteger)index
+{
+    return @"http://www.bz55.com/uploads/allimg/120721/1-120H1112I2.jpg";
 }
 
 - (UIImage *)photoViewer:(PhotoViewer *)photoViewer thumbnailAtIndex:(NSUInteger)index
