@@ -147,7 +147,8 @@
                                      options:SDWebImageCacheMemoryOnly | SDWebImageContinueInBackground
                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                        if (!error) {
-                                            self.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+                                           self.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+                                           self.image = image;
                                            self.contentSize = self.imageView.frame.size;
                                            [self setMinMaxZoomScale];
                                            [self setNeedsLayout];
