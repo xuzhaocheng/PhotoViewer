@@ -176,7 +176,6 @@
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
     if ([dismissed isKindOfClass:PhotoViewer.class]) {
-        
         return [[ImageZoomPresentAnimation alloc] initWithReferenceImageViewFrame:[self referenceImageViewFrame]];
     }
     return nil;

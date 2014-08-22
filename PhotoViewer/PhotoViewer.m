@@ -82,8 +82,10 @@
 #pragma mark - Properties
 - (void)setCurrentPageIndex:(NSUInteger)currentPageIndex
 {
-    _currentPageIndex = currentPageIndex;
-    self.pageController.currentPage = currentPageIndex;
+    if (currentPageIndex < [self numberOfPhotos]) {
+        _currentPageIndex = currentPageIndex;
+        self.pageController.currentPage = currentPageIndex;
+    }
 }
 
 

@@ -47,7 +47,6 @@
 {
     [[SDWebImageManager sharedManager].imageCache clearMemory];
     [[SDWebImageManager sharedManager].imageCache clearDisk];
-
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
