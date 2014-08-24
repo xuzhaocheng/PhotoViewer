@@ -21,6 +21,9 @@
 @end
 
 @implementation PhotoViewer
+{
+    BOOL _shouldHideStatusBar;
+}
 
 - (id)initWithDelegate: (id <PhotoViewerDelegate>)delegate
 {
@@ -28,6 +31,7 @@
     if (self) {
         self.delegate = delegate;
         self.recyclePages = [[NSMutableSet alloc] init];
+        _shouldHideStatusBar = NO;
     }
     return self;
 }
@@ -64,6 +68,28 @@
     [self displayPhotoAtIndex:_currentPageIndex];
     [self moveToPageAtIndex:_currentPageIndex];
 }
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    _shouldHideStatusBar = YES;
+    [self setNeedsStatusBarAppearanceUpdate];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    _shouldHideStatusBar = NO;
+    [self setNeedsStatusBarAppearanceUpdate];
+}
+
+#pragma mark - Appearence
+- (BOOL)prefersStatusBarHidden
+{
+    return _shouldHideStatusBar;
+}
+
+
 
 #pragma mark - Methods
 
