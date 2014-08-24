@@ -10,6 +10,7 @@
 
 #import "TableViewController.h"
 #import "UIImageView+WebCache.h"
+#import "PlainViewController.h"
 
 @interface ViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -80,7 +81,8 @@
         TableViewController *tvc = [[TableViewController alloc] init];
         [self.navigationController pushViewController:tvc animated:YES];
     } else if (indexPath.row == 1) {
-        
+        PlainViewController *pvc = [[PlainViewController alloc] init];
+        [self.navigationController pushViewController:pvc animated:YES];
     }
 }
 

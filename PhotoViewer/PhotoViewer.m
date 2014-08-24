@@ -185,7 +185,7 @@
     if ([_delegate respondsToSelector:@selector(dismissViewController)]) {
         [_delegate dismissViewController];
     } else {
-        [self dismissViewControllerAnimated:NO completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 

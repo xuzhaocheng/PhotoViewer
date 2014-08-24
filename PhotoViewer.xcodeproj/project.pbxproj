@@ -36,6 +36,7 @@
 		6B65CBA219A722F30066558E /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B65CB9219A722F30066558E /* UIView+WebCacheOperation.m */; };
 		6B65CBA819A723730066558E /* CircleProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B65CBA519A723720066558E /* CircleProgressHUD.m */; };
 		6B65CBA919A723730066558E /* UIImageView+ProgressHUDForSDWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B65CBA719A723730066558E /* UIImageView+ProgressHUDForSDWebImage.m */; };
+		6BB64A0219A99FAA0035E7E0 /* PlainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB64A0119A99FAA0035E7E0 /* PlainViewController.m */; };
 		6BEF8C1B19A459AA00729D36 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEF8C1A19A459AA00729D36 /* Foundation.framework */; };
 		6BEF8C1D19A459AA00729D36 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEF8C1C19A459AA00729D36 /* CoreGraphics.framework */; };
 		6BEF8C1F19A459AA00729D36 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEF8C1E19A459AA00729D36 /* UIKit.framework */; };
@@ -115,6 +116,8 @@
 		6B65CBA519A723720066558E /* CircleProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleProgressHUD.m; sourceTree = "<group>"; };
 		6B65CBA619A723730066558E /* UIImageView+ProgressHUDForSDWebImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+ProgressHUDForSDWebImage.h"; sourceTree = "<group>"; };
 		6B65CBA719A723730066558E /* UIImageView+ProgressHUDForSDWebImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+ProgressHUDForSDWebImage.m"; sourceTree = "<group>"; };
+		6BB64A0019A99FAA0035E7E0 /* PlainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainViewController.h; sourceTree = "<group>"; };
+		6BB64A0119A99FAA0035E7E0 /* PlainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainViewController.m; sourceTree = "<group>"; };
 		6BEF8C1719A459AA00729D36 /* PhotoViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BEF8C1A19A459AA00729D36 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6BEF8C1C19A459AA00729D36 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -282,6 +285,8 @@
 				6B61498919A5BA1400E4AA71 /* TableViewController.m */,
 				6B61498B19A5BABC00E4AA71 /* TableViewCell.h */,
 				6B61498C19A5BABC00E4AA71 /* TableViewCell.m */,
+				6BB64A0019A99FAA0035E7E0 /* PlainViewController.h */,
+				6BB64A0119A99FAA0035E7E0 /* PlainViewController.m */,
 				6BEF8C2C19A459AA00729D36 /* Images.xcassets */,
 				6B45622519A75CD70055335E /* Images */,
 				6BEF8C2119A459AA00729D36 /* Supporting Files */,
@@ -441,6 +446,7 @@
 				6B65CB9519A722F30066558E /* SDImageCache.m in Sources */,
 				6B61499F19A619A600E4AA71 /* ImageZoomPresentAnimation.m in Sources */,
 				6B61495019A4906600E4AA71 /* PhotoZoomingScrollView.m in Sources */,
+				6BB64A0219A99FAA0035E7E0 /* PlainViewController.m in Sources */,
 				6B65CB9D19A722F30066558E /* UIImage+GIF.m in Sources */,
 				6B65CB9819A722F30066558E /* SDWebImageDownloader.m in Sources */,
 				6B65CBA119A722F30066558E /* UIImageView+WebCache.m in Sources */,
