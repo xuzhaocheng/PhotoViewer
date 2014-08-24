@@ -33,6 +33,14 @@ Then you must implement:
     return nil;
 }
 
+You should take responsibility for calculating the right position of image view. 
+If images is in a table view cell, you should use convertRect:fromView: method to calculate the frame. Maybe like this:
+  [self.view convertRect:imageView fromView: cell];
+If images is in a UIView, maybe you can just pass the frame of image view itself.
+Both two situations mentioned above are in the Demo project.
+
+
+
 PhotoViewer has several delegate methods:
 
   @protocol PhotoViewerDelegate <NSObject>
@@ -51,7 +59,12 @@ PhotoViewer has several delegate methods:
   @end
   
 PhotoViewer will call photoViewer:photoAtIndex: first. If it can't get a UIImage Object, then it calls photoViewer:photoUrlAtIndex: .
-thumnail is used as placeholder when downloading images from Internet and used for view controller transition.
+thumnail is used as placeholder when downloading images from Internet and also used for view controller transition.
+
+You'd better implement the dismissViewController method, and note that only if you call the dissmissViewControllerAnimated: completion: method with animated: YES, PhotoViewer can perform animation while dismissing.
+
+
+
 
 
 
