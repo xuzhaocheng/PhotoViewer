@@ -50,10 +50,12 @@
     self.scrollView.contentSize = [self contentSizeForScrollView];
     [self.view addSubview:self.scrollView];
 
-    self.pageController = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 30, self.view.bounds.size.width, 20)];
-    self.pageController.numberOfPages = [self numberOfPhotos];
-    self.pageController.currentPage = _currentPageIndex;
-    [self.view insertSubview:self.pageController aboveSubview:self.scrollView];
+    if ([self numberOfPhotos] > 1) {
+        self.pageController = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 30, self.view.bounds.size.width, 20)];
+        self.pageController.numberOfPages = [self numberOfPhotos];
+        self.pageController.currentPage = _currentPageIndex;
+        [self.view insertSubview:self.pageController aboveSubview:self.scrollView];
+    }
 }
 
 

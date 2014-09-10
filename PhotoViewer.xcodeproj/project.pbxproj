@@ -179,13 +179,13 @@
 			isa = PBXGroup;
 			children = (
 				6BB8E28019C0224200AA45DE /* CircleProgressHUD */,
+				6BB8E28B19C0224200AA45DE /* SDWebImage */,
 				6BB8E28519C0224200AA45DE /* ImageZoomPresentAnimation.h */,
 				6BB8E28619C0224200AA45DE /* ImageZoomPresentAnimation.m */,
 				6BB8E28719C0224200AA45DE /* PhotoViewer.h */,
 				6BB8E28819C0224200AA45DE /* PhotoViewer.m */,
 				6BB8E28919C0224200AA45DE /* PhotoZoomingScrollView.h */,
 				6BB8E28A19C0224200AA45DE /* PhotoZoomingScrollView.m */,
-				6BB8E28B19C0224200AA45DE /* SDWebImage */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
