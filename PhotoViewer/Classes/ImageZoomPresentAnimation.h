@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface ImageZoomPresentAnimation : NSObject <UIViewControllerAnimatedTransitioning>
-- (id)initWithReferenceImageViewFrame: (CGRect)refercenImageViewFrame;
+- (id)initWithReferenceImageView: (UIImageView *)refercenImageView;
 @end

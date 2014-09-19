@@ -10,17 +10,17 @@
 #import "PhotoViewer.h"
 
 @interface ImageZoomPresentAnimation ()
-@property (nonatomic) CGRect referenceImageViewFrame;
+@property (nonatomic, weak) UIImageView *referenceImageView;
 @end
 
 @implementation ImageZoomPresentAnimation
 
 
-- (id)initWithReferenceImageViewFrame:(CGRect)refercenImageViewFrame
+- (id)initWithReferenceImageView:(UIImageView *)refercenImageView
 {
     self = [super init];
     if (self) {
-        self.referenceImageViewFrame = refercenImageViewFrame;
+        self.referenceImageView = refercenImageView;
     }
     return self;
 }
@@ -45,8 +45,10 @@
     UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     PhotoViewer *toVC = (PhotoViewer *)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.referenceImageViewFrame];
-    imageView.image = [toVC imageInPageAtIndex:toVC.currentPageIndex];
+    CGRect imageViewFrame = [fromVC.view convertRect:self.referenceImageView.frame fromView:self.referenceImageView.superview];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:imageViewFrame];
+    imageView.image = self.referenceImageView.image;
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.clipsToBounds = YES;
     
@@ -95,6 +97,8 @@
     transitionContext.containerView.alpha = 1;
     [transitionContext.containerView addSubview:imageView];
     
+    CGRect imageViewFrame = [toVC.view convertRect:self.referenceImageView.frame fromView:self.referenceImageView.superview];
+    
     [fromVC.view removeFromSuperview];
     [UIView animateWithDuration:[self transitionDuration:transitionContext]
                           delay:0
@@ -103,7 +107,7 @@
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          toVC.view.alpha = 1.0;
-                         imageView.frame = self.referenceImageViewFrame;
+                         imageView.frame = imageViewFrame;
                      } completion:^(BOOL finished) {
                          [imageView removeFromSuperview];
                          [transitionContext completeTransition:YES];

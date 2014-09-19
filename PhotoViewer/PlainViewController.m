@@ -62,28 +62,28 @@
 }
 
 
-- (CGRect)referenceImageViewFrame
+- (UIImageView *)referenceImageView
 {
     // Use currentPageIndex to decide which image view's frame should be returned
     if (self.photoViewer.currentPageIndex == 0) {
-        return self.imageViewLocal.frame;
+        return self.imageViewLocal;
     } else if (self.photoViewer.currentPageIndex == 1) {
-        return self.imageViewRemote.frame;
+        return self.imageViewRemote;
     }
-    return CGRectZero;
+    return nil;
 }
 
 #pragma mark - Transition delegate
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
     if ([presented isKindOfClass:PhotoViewer.class]) {
-        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageViewFrame:[self referenceImageViewFrame]];
+        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageView:[self referenceImageView]];
     }
     return nil;
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
     if ([dismissed isKindOfClass:PhotoViewer.class]) {
-        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageViewFrame:[self referenceImageViewFrame]];
+        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageView:[self referenceImageView]];
     }
     return nil;
 }

@@ -170,24 +170,23 @@
 #pragma mark - Transition delegate
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
     if ([presented isKindOfClass:PhotoViewer.class]) {
-        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageViewFrame:[self referenceImageViewFrame]];
+        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageView:[self referenceImageView]];
     }
     return nil;
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
     if ([dismissed isKindOfClass:PhotoViewer.class]) {
-        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageViewFrame:[self referenceImageViewFrame]];
+        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageView:[self referenceImageView]];
     }
     return nil;
 }
 
 
 // Using convertRect:fromView: to calculate new frame
-- (CGRect)referenceImageViewFrame
+- (UIImageView *)referenceImageView
 {
-    UIImageView *currentImageView = [self currentCellImageViewAtIndex:self.pvc.currentPageIndex];
-    return [self.view convertRect:currentImageView.frame fromView:self.selectedCell];
+    return [self currentCellImageViewAtIndex:self.pvc.currentPageIndex];
 }
 
 #pragma mark - Helpers
