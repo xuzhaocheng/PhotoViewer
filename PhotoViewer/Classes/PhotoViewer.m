@@ -25,6 +25,18 @@
     BOOL _shouldHideStatusBar;
 }
 
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+#pragma mark - Life Cycle
 - (id)initWithDelegate: (id <PhotoViewerDelegate>)delegate
 {
     self = [super init];
@@ -58,12 +70,6 @@
     }
 }
 
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -83,6 +89,29 @@
     [super viewWillDisappear:animated];
     _shouldHideStatusBar = NO;
     [self setNeedsStatusBarAppearanceUpdate];
+}
+
+#pragma mark - Rotation
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    CGRect bounds = self.view.bounds;
+    NSLog(@"view height: %f", bounds.size.height);
+    self.scrollView.frame = CGRectMake(-PADDING, 0, self.view.bounds.size.width + 2 * PADDING, self.view.bounds.size.height);
+    
+    for (NSInteger i = 0; i < [self numberOfPhotos]; i++) {
+        if ([self.scrollView viewWithTag:i+1]) {
+            PhotoZoomingScrollView *view = (PhotoZoomingScrollView *)[self.scrollView viewWithTag:i+1];
+            view.frame = CGRectMake(i * self.scrollView.frame.size.width + PADDING, 0, bounds.size.width, bounds.size.height);
+            [view display];
+        }
+    }
+    
+    self.scrollView.contentSize = [self contentSizeForScrollView];
+    self.scrollView.contentOffset = CGPointMake(self.currentPageIndex * self.scrollView.bounds.size.width, 0);
+    
+    if (self.pageController) {
+        self.pageController.frame = CGRectMake(0, self.view.bounds.size.height - 30, self.view.bounds.size.width, 20);
+    }
 }
 
 #pragma mark - Appearence

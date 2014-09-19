@@ -27,6 +27,16 @@
 }
 
 
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -36,7 +46,6 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
-    
 }
 
 #pragma mark - UITableView data source

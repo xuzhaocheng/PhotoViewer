@@ -20,6 +20,15 @@
 
 @implementation PlainViewController
 
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
 
 - (void)viewDidLoad
 {
@@ -48,6 +57,15 @@
     tapGestureR.numberOfTapsRequired = 1;
     
     [self.imageViewRemote addGestureRecognizer:tapGestureR];
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+        self.imageViewRemote.frame = CGRectMake(300, 150, 100, 100);
+    } else {
+        self.imageViewRemote.frame = CGRectMake(150, 300, 100, 100);
+    }
 }
 
 - (void)tapAction: (UITapGestureRecognizer *)tapGesture
