@@ -20,6 +20,15 @@
 
 @implementation PlainViewController
 
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
 
 - (void)viewDidLoad
 {
@@ -50,6 +59,15 @@
     [self.imageViewRemote addGestureRecognizer:tapGestureR];
 }
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+        self.imageViewRemote.frame = CGRectMake(300, 150, 100, 100);
+    } else {
+        self.imageViewRemote.frame = CGRectMake(150, 300, 100, 100);
+    }
+}
+
 - (void)tapAction: (UITapGestureRecognizer *)tapGesture
 {
     self.photoViewer = [[PhotoViewer alloc] initWithDelegate:self];
@@ -62,28 +80,28 @@
 }
 
 
-- (CGRect)referenceImageViewFrame
+- (UIImageView *)referenceImageView
 {
     // Use currentPageIndex to decide which image view's frame should be returned
     if (self.photoViewer.currentPageIndex == 0) {
-        return self.imageViewLocal.frame;
+        return self.imageViewLocal;
     } else if (self.photoViewer.currentPageIndex == 1) {
-        return self.imageViewRemote.frame;
+        return self.imageViewRemote;
     }
-    return CGRectZero;
+    return nil;
 }
 
 #pragma mark - Transition delegate
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
     if ([presented isKindOfClass:PhotoViewer.class]) {
-        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageViewFrame:[self referenceImageViewFrame]];
+        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageView:[self referenceImageView]];
     }
     return nil;
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
     if ([dismissed isKindOfClass:PhotoViewer.class]) {
-        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageViewFrame:[self referenceImageViewFrame]];
+        return [[ImageZoomPresentAnimation alloc] initWithReferenceImageView:[self referenceImageView]];
     }
     return nil;
 }

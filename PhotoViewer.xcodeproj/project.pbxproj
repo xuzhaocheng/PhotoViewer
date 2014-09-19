@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B07D2C019CC52120062B93B /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B07D2BF19CC52120062B93B /* CustomNavigationController.m */; };
 		6B61498A19A5BA1400E4AA71 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61498919A5BA1400E4AA71 /* TableViewController.m */; };
 		6B61498D19A5BABC00E4AA71 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B61498C19A5BABC00E4AA71 /* TableViewCell.m */; };
 		6BB64A0219A99FAA0035E7E0 /* PlainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB64A0119A99FAA0035E7E0 /* PlainViewController.m */; };
@@ -63,6 +64,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6B07D2BE19CC52120062B93B /* CustomNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationController.h; sourceTree = "<group>"; };
+		6B07D2BF19CC52120062B93B /* CustomNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationController.m; sourceTree = "<group>"; };
 		6B61498819A5BA1400E4AA71 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
 		6B61498919A5BA1400E4AA71 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		6B61498B19A5BABC00E4AA71 /* TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
@@ -277,6 +280,8 @@
 				6BB8E27F19C0224200AA45DE /* Classes */,
 				6BEF8C2919A459AA00729D36 /* AppDelegate.h */,
 				6BEF8C2A19A459AA00729D36 /* AppDelegate.m */,
+				6B07D2BE19CC52120062B93B /* CustomNavigationController.h */,
+				6B07D2BF19CC52120062B93B /* CustomNavigationController.m */,
 				6BEF8C4919A459B800729D36 /* ViewController.h */,
 				6BEF8C4A19A459B800729D36 /* ViewController.m */,
 				6B61498819A5BA1400E4AA71 /* TableViewController.h */,
@@ -424,6 +429,7 @@
 			files = (
 				6BB8E2BC19C0224200AA45DE /* UIImage+GIF.m in Sources */,
 				6BEF8C4B19A459B800729D36 /* ViewController.m in Sources */,
+				6B07D2C019CC52120062B93B /* CustomNavigationController.m in Sources */,
 				6BB8E2BA19C0224200AA45DE /* SDWebImagePrefetcher.m in Sources */,
 				6B61498A19A5BA1400E4AA71 /* TableViewController.m in Sources */,
 				6BB8E2AD19C0224200AA45DE /* CircleProgressHUD.m in Sources */,
