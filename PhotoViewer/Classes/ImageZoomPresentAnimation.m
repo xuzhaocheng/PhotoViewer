@@ -68,6 +68,7 @@
                      } completion:^(BOOL finished) {
                          fromVC.view.alpha = 1;
                          [imageView removeFromSuperview];
+                         [containerView addSubview:toVC.view];
                          [transitionContext completeTransition:YES];
                      }];
     
