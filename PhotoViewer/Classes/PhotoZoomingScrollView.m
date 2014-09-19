@@ -87,37 +87,6 @@
     return self;
 }
 
-
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    
-    // Center the image as it becomes smaller than the size of the screen
-    CGSize boundsSize = self.bounds.size;
-    CGRect frameToCenter = self.imageView.frame;
-    
-    
-    // Horizontally
-    if (frameToCenter.size.width < boundsSize.width) {
-        frameToCenter.origin.x = floorf((boundsSize.width - frameToCenter.size.width) / 2.0);
-    } else {
-        frameToCenter.origin.x = 0;
-    }
-    
-    // Vertically
-    if (frameToCenter.size.height < boundsSize.height) {
-        frameToCenter.origin.y = floorf((boundsSize.height - frameToCenter.size.height) / 2.0);
-    } else {
-        frameToCenter.origin.y = 0;
-    }
-    
-    // Center
-    if (!CGRectEqualToRect(self.imageView.frame, frameToCenter))
-        self.imageView.frame = frameToCenter;
-   
-}
-
 - (void)prepareForReuse
 {
     self.tag = NSUIntegerMax;
@@ -129,6 +98,7 @@
 
 - (void)display
 {
+   
     self.maximumZoomScale = 1;
     self.minimumZoomScale = 1;
     self.zoomScale = 1;
@@ -156,6 +126,7 @@
         }];
     }
 
+    [self centeredFrame:self.imageView forScrollView:self];
     
 }
 
@@ -171,6 +142,27 @@
     placeHolderImageSize.height *= minScale;
 
     return CGRectMake(self.bounds.size.width / 2, self.bounds.size.height / 2, placeHolderImageSize.width, placeHolderImageSize.height);
+}
+
+- (void)centeredFrame:(UIView *)view forScrollView:(UIScrollView *)scrollView
+{
+    CGSize boundsSize = scrollView.frame.size;
+    CGRect frameToCenter = view.frame;
+    
+    if (frameToCenter.size.width < boundsSize.width) {
+        frameToCenter.origin.x = floorf((boundsSize.width - frameToCenter.size.width) / 2.0);
+    } else {
+        frameToCenter.origin.x = 0;
+    }
+    
+    if (frameToCenter.size.height < boundsSize.height) {
+        frameToCenter.origin.y = floorf((boundsSize.height - frameToCenter.size.height) / 2.0);
+    } else {
+        frameToCenter.origin.y = 0;
+    }
+    
+    if (!CGRectEqualToRect(view.frame, frameToCenter))
+        view.frame = frameToCenter;
 }
 
 - (void)setMinMaxZoomScale
@@ -201,11 +193,29 @@
     self.zoomScale = self.minimumZoomScale;
 }
 
+- (CGRect)zoomRectForScale:(float)scale withCenter:(CGPoint)center
+{
+    CGRect zoomRect;
+    
+    zoomRect.size.height = [_imageView frame].size.height / scale;
+    zoomRect.size.width  = [_imageView frame].size.width  / scale;
+    
+    zoomRect.origin.x    = center.x - ((zoomRect.size.width / 2.0));
+    zoomRect.origin.y    = center.y - ((zoomRect.size.height / 2.0));
+    
+    return zoomRect;
+}
+
 
 #pragma mark - UIScrollView delegate
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
     return self.imageView;
+}
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView
+{
+    [self centeredFrame:self.imageView forScrollView:self];
 }
 
 #pragma mark - Tap Action
@@ -223,13 +233,11 @@
 		[self setZoomScale:self.minimumZoomScale animated:YES];
 	} else {
 		// Zoom in to twice the size
-        CGPoint touchPoint = [tapGesture locationInView:self.imageView];
-        CGFloat newZoomScale = ((self.maximumZoomScale + self.minimumZoomScale) / 2);
-        CGFloat xsize = self.bounds.size.width / newZoomScale;
-        CGFloat ysize = self.bounds.size.height / newZoomScale;
-        [self zoomToRect:CGRectMake(touchPoint.x - xsize / 2, touchPoint.y - ysize / 2, xsize, ysize) animated:YES];
-        
-	}
+        CGPoint center = [tapGesture locationInView:tapGesture.view];
+        CGFloat newZoomScale = (self.maximumZoomScale + self.minimumZoomScale) / 2;
+        CGRect zoomRct = [self zoomRectForScale:newZoomScale withCenter:center];
+        [self zoomToRect:zoomRct animated:YES];
+    }
 }
 
 - (void)handleSingleTap: (UIGestureRecognizer *)tapGesture
