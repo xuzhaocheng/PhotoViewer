@@ -98,7 +98,6 @@
 
 - (void)display
 {
-   
     self.maximumZoomScale = 1;
     self.minimumZoomScale = 1;
     self.zoomScale = 1;

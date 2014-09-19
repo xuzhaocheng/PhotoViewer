@@ -108,10 +108,8 @@
                          [imageView removeFromSuperview];
                          [transitionContext completeTransition:YES];
                      }];
-
-    
-
 }
+
 
 - (CGRect)resizeImage:(UIImage *)image forRect: (CGRect)rect
 {
