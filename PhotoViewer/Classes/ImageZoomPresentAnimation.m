@@ -59,6 +59,7 @@
     CGRect finalFrame = [transitionContext finalFrameForViewController:toVC];
     CGRect imageViewFinalFrame = [self resizeImage:imageView.image forRect:finalFrame];
     
+    [fromVC.view removeFromSuperview];
     [UIView animateWithDuration:[self transitionDuration:transitionContext]
                           delay:0
          usingSpringWithDamping:1.0f
@@ -87,7 +88,7 @@
     
     
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = [fromVC imageInPageAtIndex:fromVC.currentPageIndex];
+    imageView.image = self.referenceImageView.image;
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.clipsToBounds = YES;
     
@@ -95,11 +96,18 @@
     imageView.frame = [self resizeImage:imageView.image forRect:finalFrame];
     transitionContext.containerView.backgroundColor = [UIColor blackColor];
     transitionContext.containerView.alpha = 1;
-    [transitionContext.containerView addSubview:imageView];
     
     CGRect imageViewFrame = [toVC.view convertRect:self.referenceImageView.frame fromView:self.referenceImageView.superview];
     
+    if ([toVC isKindOfClass:[UINavigationController class]]) {
+       UIViewController *currentVC = [((UINavigationController *)toVC).viewControllers lastObject];
+        [currentVC.view addSubview:imageView];
+    } else {
+        [toVC.view addSubview:imageView];
+    }
+    
     [fromVC.view removeFromSuperview];
+
     [UIView animateWithDuration:[self transitionDuration:transitionContext]
                           delay:0
          usingSpringWithDamping:1.0f
