@@ -17,7 +17,6 @@
 - (NSUInteger)supportedInterfaceOrientations
 {
     UIViewController *topVC = [self topViewController];
-    NSLog(@"top vC: %@", topVC);
     return [topVC supportedInterfaceOrientations];
 }
 

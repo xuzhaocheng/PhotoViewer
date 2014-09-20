@@ -373,6 +373,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Zhejiang University";
 				TargetAttributes = {
+					6BEF8C1619A459AA00729D36 = {
+						DevelopmentTeam = HLE64JEVJ5;
+					};
 					6BEF8C3119A459AA00729D36 = {
 						TestTargetID = 6BEF8C1619A459AA00729D36;
 					};
@@ -571,10 +574,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhotoViewer/PhotoViewer-Prefix.pch";
 				INFOPLIST_FILE = "PhotoViewer/PhotoViewer-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -584,10 +590,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhotoViewer/PhotoViewer-Prefix.pch";
 				INFOPLIST_FILE = "PhotoViewer/PhotoViewer-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

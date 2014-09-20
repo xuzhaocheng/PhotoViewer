@@ -23,17 +23,7 @@
 @implementation PhotoViewer
 {
     BOOL _shouldHideStatusBar;
-}
-
-
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAllButUpsideDown;
-}
-
-- (BOOL)shouldAutorotate
-{
-    return YES;
+    BOOL _scrollingLocked;
 }
 
 #pragma mark - Life Cycle
@@ -51,7 +41,7 @@
 - (void)loadView
 {
     self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor blackColor];
     
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectIntegral(CGRectMake(-PADDING, 0, self.view.bounds.size.width + 2 * PADDING, self.view.bounds.size.height))];
     self.scrollView.backgroundColor = [UIColor blackColor];
@@ -73,6 +63,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     [self displayPhotoAtIndex:_currentPageIndex];
     [self moveToPageAtIndex:_currentPageIndex];
 }
@@ -91,11 +82,42 @@
     [self setNeedsStatusBarAppearanceUpdate];
 }
 
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+
+    self.view.frame = [UIScreen mainScreen].bounds;
+    _scrollingLocked = YES;
+    [self prepareForRotation];
+    _scrollingLocked = NO;
+}
+
+
 #pragma mark - Rotation
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    _scrollingLocked = NO;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    _scrollingLocked = YES;
+}
+
+- (void)prepareForRotation
 {
     CGRect bounds = self.view.bounds;
-    NSLog(@"view height: %f", bounds.size.height);
     self.scrollView.frame = CGRectMake(-PADDING, 0, self.view.bounds.size.width + 2 * PADDING, self.view.bounds.size.height);
     
     for (NSInteger i = 0; i < [self numberOfPhotos]; i++) {
@@ -119,7 +141,6 @@
 {
     return _shouldHideStatusBar;
 }
-
 
 
 #pragma mark - Methods
@@ -189,6 +210,8 @@
 #pragma mark - UIScrollView delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    if (_scrollingLocked)   return;
+    
     NSInteger currentPage = roundf(scrollView.contentOffset.x / scrollView.bounds.size.width);
     
     if (_currentPageIndex == currentPage) {

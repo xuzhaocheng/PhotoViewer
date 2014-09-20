@@ -44,15 +44,16 @@
 {
     UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     PhotoViewer *toVC = (PhotoViewer *)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    UIView *containerView = transitionContext.containerView;
     
-    CGRect imageViewFrame = [fromVC.view convertRect:self.referenceImageView.frame fromView:self.referenceImageView.superview];
+    CGRect imageViewFrame = [containerView convertRect:self.referenceImageView.frame fromView:self.referenceImageView.superview];
     
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:imageViewFrame];
     imageView.image = self.referenceImageView.image;
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.clipsToBounds = YES;
     
-    UIView *containerView = transitionContext.containerView;
+    
     [containerView addSubview:imageView];
     containerView.backgroundColor = [UIColor blackColor];
     
@@ -81,21 +82,28 @@
 {
     UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     PhotoViewer *fromVC = (PhotoViewer *)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIView *containerView = transitionContext.containerView;
+    
+    containerView.backgroundColor = [UIColor blackColor];
+    containerView.alpha = 1;
     
     toVC.view.alpha = 0;
+    [fromVC.view removeFromSuperview];
+    
+    CGRect finalFrame = [transitionContext finalFrameForViewController:toVC];
+    
+    ///// Important!!!!
+    toVC.view.frame = finalFrame;
+    ////////
+    
     [transitionContext.containerView addSubview:toVC.view];
     [transitionContext.containerView sendSubviewToBack:toVC.view];
-    
     
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.image = self.referenceImageView.image;
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.clipsToBounds = YES;
-    
-    CGRect finalFrame = [transitionContext finalFrameForViewController:toVC];
     imageView.frame = [self resizeImage:imageView.image forRect:finalFrame];
-    transitionContext.containerView.backgroundColor = [UIColor blackColor];
-    transitionContext.containerView.alpha = 1;
     
     CGRect imageViewFrame = [toVC.view convertRect:self.referenceImageView.frame fromView:self.referenceImageView.superview];
     
@@ -105,8 +113,6 @@
     } else {
         [toVC.view addSubview:imageView];
     }
-    
-    [fromVC.view removeFromSuperview];
 
     [UIView animateWithDuration:[self transitionDuration:transitionContext]
                           delay:0
