@@ -24,6 +24,8 @@
 {
     BOOL _shouldHideStatusBar;
     BOOL _scrollingLocked;
+    
+    NSUInteger _supportedInterfaceOrientations;
 }
 
 #pragma mark - Life Cycle
@@ -32,11 +34,13 @@
     self = [super init];
     if (self) {
         self.delegate = delegate;
+        _supportedInterfaceOrientations = UIInterfaceOrientationMaskPortrait;
         self.recyclePages = [[NSMutableSet alloc] init];
         _shouldHideStatusBar = NO;
     }
     return self;
 }
+
 
 - (void)loadView
 {
@@ -60,19 +64,15 @@
     }
 }
 
+
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self displayPhotoAtIndex:_currentPageIndex];
-    [self moveToPageAtIndex:_currentPageIndex];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
     _shouldHideStatusBar = YES;
     [self setNeedsStatusBarAppearanceUpdate];
+    [self displayPhotoAtIndex:_currentPageIndex];
+    [self moveToPageAtIndex:_currentPageIndex];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -82,14 +82,11 @@
     [self setNeedsStatusBarAppearanceUpdate];
 }
 
-- (void)viewWillLayoutSubviews
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillLayoutSubviews];
-
-    self.view.frame = [UIScreen mainScreen].bounds;
-    _scrollingLocked = YES;
-    [self prepareForRotation];
-    _scrollingLocked = NO;
+    [super viewDidAppear:animated];
+    _supportedInterfaceOrientations = UIInterfaceOrientationMaskAllButUpsideDown;
+    [UIViewController attemptRotationToDeviceOrientation];
 }
 
 
@@ -97,12 +94,17 @@
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskAllButUpsideDown;
+    return _supportedInterfaceOrientations;
 }
 
 - (BOOL)shouldAutorotate
 {
     return YES;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -113,6 +115,11 @@
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     _scrollingLocked = YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self prepareForRotation];
 }
 
 - (void)prepareForRotation
@@ -135,6 +142,7 @@
         self.pageController.frame = CGRectMake(0, self.view.bounds.size.height - 30, self.view.bounds.size.width, 20);
     }
 }
+
 
 #pragma mark - Appearence
 - (BOOL)prefersStatusBarHidden
